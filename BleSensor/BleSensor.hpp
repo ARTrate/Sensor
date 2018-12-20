@@ -15,6 +15,12 @@
 /// Characteristic UUID of the heart rate service
 #define HEART_RATE_CHARACTERISTIC_UUID "00002a37-0000-1000-8000-00805f9b34fb"
 
+/// Service UUID of the heart rate service
+#define RESPIRATION_SERVICE_UUID        "00001700-0000-1000-8000-00805f9b34fb"
+
+/// Characteristic UUID of the heart rate service
+#define RESPIRATION_CHARACTERISTIC_UUID "00002222-0000-1000-8000-00805f9b34fb"
+
 /// Error Code when no device is connected
 #define ERROR_DEVICE_NOT_CONNECTED -20
 
@@ -73,11 +79,17 @@ private:
     /// The ble server
     BLEServer* bleServer;
 
-    /// the ble characteristic
-    BLECharacteristic* bleCharacteristic;
+    /// the ble hr characteristic
+    BLECharacteristic* hrCharacteristic;
     
-    /// the ble service
-    BLEService* bleService;
+    /// the ble hr service
+    BLEService* hrService;
+
+    /// the respiration ble characteristic
+    BLECharacteristic* respirationCharacteristic;
+    
+    /// the respiration ble service
+    BLEService* respirationService;
 
     /// the connection handler
     ConnectionHandler* connectionHandler;
@@ -89,10 +101,21 @@ public:
     BleSensor();
 
     /**
-     * @brief here is where the magic happens. The new value is set and the ble client gets notified
+     * @brief The new hr value is set and the ble client gets notified
      * 
      * @param val value to set
      * @return int 0 if there is a device connected else ERROR_DEVICE_NOT_CONNECTED
      */
-    int setValue(uint8_t val);
+    int setHRValue(uint8_t val);
+
+    /**
+     * @brief The new respiration values are set and the ble client gets notified
+     * 
+     * @param xAccel acceleration x 
+     * @param yAccel acceleration y
+     * @param zAccel acceleration z
+     * @return int 0 if there is a device connected else ERROR_DEVICE_NOT_CONNECTED
+     */
+    int setRespirationValue(int16_t xAccel, int16_t yAccel, int16_t zAccel );
+
 };
