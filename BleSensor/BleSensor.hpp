@@ -93,6 +93,7 @@ private:
 
     /// the connection handler
     ConnectionHandler* connectionHandler;
+    
 public:
     /**
      * @brief Construct a new Ble Sensor object
@@ -111,11 +112,11 @@ public:
     /**
      * @brief The new respiration values are set and the ble client gets notified
      * 
-     * @param xAccel acceleration x 
-     * @param yAccel acceleration y
-     * @param zAccel acceleration z
+     * @param xAccel acceleration x 3 value array
+     * @param yAccel acceleration y 3 value array
+     * @param zAccel acceleration z 3 value array
      * @return int 0 if there is a device connected else ERROR_DEVICE_NOT_CONNECTED
      */
-    int setRespirationValue(int16_t xAccel, int16_t yAccel, int16_t zAccel );
+    int setRespirationValue(int16_t* xAccel, int16_t* yAccel, int16_t* zAccel );
 
 };

@@ -92,22 +92,34 @@ int BleSensor::setHRValue(uint8_t val) {
     }
 }
 
-int BleSensor::setRespirationValue(int16_t xAccel, int16_t yAccel, int16_t zAccel ) {
+int BleSensor::setRespirationValue(int16_t* xAccel, int16_t* yAccel, int16_t* zAccel ) {
     // built an byte array from the acceleration values
 
     /// they bytearray for the data to send. 
-    uint8_t bytearray[6];
-    bytearray[0] = (byte)xAccel;
-    bytearray[1] = (byte)(xAccel>>8); 
-    bytearray[2] = (byte)yAccel;
-    bytearray[3] = (byte)(yAccel>>8);
-    bytearray[4] = (byte)zAccel;
-    bytearray[5] = (byte)(zAccel>>8);
+    uint8_t bytearray[18];
+    bytearray[0] = xAccel[0] & 0xFF;
+    bytearray[1] = (xAccel[0] >> 8) & 0xFF;
+    bytearray[2] = xAccel[1] & 0xFF;
+    bytearray[3] = (xAccel[1] >> 8) & 0xFF;
+    bytearray[4] = xAccel[2] & 0xFF;
+    bytearray[5] = (xAccel[2] >> 8) & 0xFF;
+    bytearray[6] = yAccel[0] & 0xFF;
+    bytearray[7] = (yAccel[0] >> 8) & 0xFF;
+    bytearray[8] = yAccel[1] & 0xFF;
+    bytearray[9] = (yAccel[1] >> 8) & 0xFF;
+    bytearray[10] = yAccel[2] & 0xFF;
+    bytearray[11] = (yAccel[2] >> 8) & 0xFF;
+    bytearray[12] = zAccel[0] & 0xFF;
+    bytearray[13] = (zAccel[0] >> 8) & 0xFF;
+    bytearray[14] = zAccel[1] & 0xFF;
+    bytearray[15] = (zAccel[1] >> 8) & 0xFF;
+    bytearray[16] = zAccel[2] & 0xFF;
+    bytearray[17] = (zAccel[2] >> 8) & 0xFF;
 
     int connectionStatus = connectionHandler->getConnectionStatus();
     if (connectionStatus == DEVICE_STILL_CONNECTED || connectionStatus == NEW_DEVICE_CONNECTED) {
         //there is a connection we can set values
-        respirationCharacteristic->setValue(bytearray, 6);
+        respirationCharacteristic->setValue(bytearray, 18);
         respirationCharacteristic->notify();
         delay(10);
         return 0;
