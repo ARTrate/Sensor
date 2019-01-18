@@ -8,10 +8,10 @@
 
 /*---------------------------------------------------------------------------*/
 // config --> you should do that
-const char* ssid = "";
-const char* pwd = "";
-const int port = 7777;
-const char* serverIp = "192.168.1.172";
+const char* ssid = "Artrate";
+const char* pwd = "artratewifi";
+const int port = 5005;
+const char* serverIp = "192.168.43.39";
 /*---------------------------------------------------------------------------*/
 
 static OscSensor* oscSensor;

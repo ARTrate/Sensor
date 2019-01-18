@@ -17,6 +17,7 @@ private:
     WiFiUDP udp;
     const char* serverIp;
     const int port; 
+    IPAddress sensorIp; 
 public:
     OscSensor(const int port, const char* serverIp);
     int sendRr(int x, int y, int z);
