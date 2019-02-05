@@ -11,6 +11,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+/// 
+const int ID = 2;
+
 /// Pin configuration
 #define MMA8452Q_intPin   32
 #define I2C_SDAPINaccel   21
@@ -28,7 +31,7 @@
 #define MMA8452Q_ADDRESS 0x1D
 
 /// Configuration of heart rate sensor BH1792
-#define GREEN_LED_CURRENT 1
+#define GREEN_LED_CURRENT 5
 #define SAMPLE_INTERVAL 20000   // 20ms --> 50Hz
 
 /// Configuration of ADC for GSR sensor

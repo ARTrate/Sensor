@@ -9,6 +9,7 @@
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include <OSCMessage.h>
+#include "config.hpp"
 
 
 class OscSensor
@@ -17,7 +18,8 @@ private:
     WiFiUDP udp;
     const char* serverIp;
     const int port; 
-    IPAddress sensorIp; 
+    IPAddress sensorIp;
+    int id; 
 public:
     OscSensor(const int port, const char* serverIp);
     int sendRr(int x, int y, int z);

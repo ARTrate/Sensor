@@ -16,12 +16,14 @@
 const char* ssid = "Artrate";
 const char* pwd = "artratewifi";
 const int port = 5005;
-const char* serverIp = "192.168.43.39";
+const char* serverIp = "192.168.15.3";
+
+volatile bool hrIsrFlag = 0;
 
 static OscSensor* oscSensor;
 MMA8452Q accel;
 BH1792 hr;
-GroveGSR gsr;
+// GroveGSR gsr;
 
 hw_timer_t * tmr_BH1792sync = NULL;
 volatile SemaphoreHandle_t timer0Semaphore;
@@ -41,7 +43,7 @@ void setup()
   accel.setI2CAddr(MMA8452Q_ADDRESS);
   accel.dataMode(true, FULL_SCALE_RANGE, MMA8452Q_intPin); //enable highRes 12bit, 4g range, ODR 50Hz
 
-  gsr.initGsrADC(EDA_ADCpin);
+  // gsr.initGsrADC(EDA_ADCpin);
 
   timer0Semaphore = xSemaphoreCreateBinary();
   tmr_BH1792sync = timerBegin(0,80,true);     // Timer 0 to use, TIMER_CLK = APD_CLK/80 = 1MHZ, count up
@@ -58,10 +60,13 @@ void loop()
   
   if(accel.getISRflag())
   {
+    accel.update();
     oscSensor->sendRr(accel.x(),accel.y(),accel.z());
   }  
 
-  if (xSemaphoreTake(timer0Semaphore, 0) == pdTRUE){
+  //if (xSemaphoreTake(timer0Semaphore, 0) == pdTRUE){
+  if(hrIsrFlag) {
+    hrIsrFlag=0;
     hr.startMeasurement();
   }
 
@@ -75,5 +80,6 @@ void loop()
  * 
  */
 void IRAM_ATTR timer_isr(void) {
-  xSemaphoreGiveFromISR(timer0Semaphore, NULL);
+  //xSemaphoreGiveFromISR(timer0Semaphore, NULL);
+  hrIsrFlag=1;
 }
